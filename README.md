@@ -64,9 +64,9 @@ pnpm dev
 
 ### Commit Convention
 
-feat: เพิ่ม template สัญญาใหม่
-fix: แก้ไขปัญหา PDF generation
-docs: อัพเดท README
-style: แก้ไข Tailwind classes
-refactor: ปรับปรุง code structure
-test: เพิ่ม unit tests
+- feat: เพิ่ม template สัญญาใหม่
+- fix: แก้ไขปัญหา PDF generation
+- docs: อัพเดท README
+- style: แก้ไข Tailwind classes
+- refactor: ปรับปรุง code structure
+- test: เพิ่ม unit tests
