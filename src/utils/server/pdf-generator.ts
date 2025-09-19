@@ -39,7 +39,7 @@ export async function generateContractPDF(contractData: ContractData) {
 
     const page = await browser.newPage();
 
-    const htmlContent = generateContractHTML(contractData);
+    const htmlContent = await generateContractHTML(contractData);
 
     await page.setContent(htmlContent, {
       waitUntil: 'networkidle0'

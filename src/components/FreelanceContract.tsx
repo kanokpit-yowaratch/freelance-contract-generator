@@ -91,20 +91,24 @@ const FreelanceContractGenerator = () => {
 		setIsProcessing(false);
 	}
 
+	const loadPreview = async () => {
+		const preview = await generateContractHTML(contractData);
+		setHtmlContent(preview);
+	}
+
 	const onSubmit = () => {
 		console.log(contractData);
 	};
 
 	useEffect(() => {
-		const preview = generateContractHTML(contractData);
-		setHtmlContent(preview);
-	}, [contractData])
+		loadPreview();
+	}, [contractData]);
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-gray-100 to-stone-200">
+		<div className="min-h-screen bg-gradient-to-br from-gray-100 to-stone-200 text-sm">
 			<div className="container mx-auto px-4 py-8">
 				<div className="flex justify-center items-center mb-4">
-					<h4 className="text-3xl font-bold text-gray-700">เครื่องมือช่วยร่างสัญญาสำหรับ Freelance</h4>
+					<h4 className="text-2xl font-bold text-gray-700">เครื่องมือช่วยร่างสัญญาสำหรับ Freelance</h4>
 				</div>
 
 				<form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-2 gap-4">

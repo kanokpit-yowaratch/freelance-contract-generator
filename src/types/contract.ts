@@ -29,3 +29,7 @@ export interface ContractData {
 		witness2: string;
 	};
 }
+
+export interface ContractTemplateProps {
+	data: ContractData;
+}

@@ -1,8 +1,13 @@
+import React from 'react';
 import { ContractData } from '@/types/contract';
 
-export function generateContractHTML(data: ContractData): string {
-  let htmlContent = `
-    <!DOCTYPE html>
+export const generateContractHTML = async (data: ContractData): Promise<string> => {
+  try {
+    const { renderToStaticMarkup } = await import('react-dom/server');
+    const { default: ContractTemplate } = await import('@/components/ContractTemplateColor');
+    const componentHTML = renderToStaticMarkup(React.createElement(ContractTemplate, { data }));
+
+    return `<!DOCTYPE html>
     <html>
     <head>
       <meta charset="UTF-8">
@@ -133,115 +138,15 @@ export function generateContractHTML(data: ContractData): string {
           }
         }
       </style>
-    </head>
-    <body>`;
-  htmlContent += `
-      <div class="page-content">
-        <div class="contract-header no-break">
-          <h1 class="contract-title">สัญญาการจ้างงาน</h1>
-        </div>`;
-
-  htmlContent += `
-        <div class="section contract-terms no-break">
-          ${data.contractTerms}
-        </div>`;
-
-  htmlContent += `
-      <div class="section">
-        <h2 class="section-title">รายละเอียดงาน</h2>
-        <p><strong>ชื่อโครงการ:</strong> ${data.projectDetails.title}</p>
-        <p><strong>รายละเอียด:</strong> ${data.projectDetails.description}</p>
-        <p><strong>ระยะเวลา:</strong> ${data.projectDetails.timeline}</p>
-        <p><strong>วันที่เริ่มงาน:</strong> ${data.projectDetails.startDate}</p>
-        <p><strong>วันที่สิ้นสุด:</strong> ${data.projectDetails.endDate}</p>
-        <p><strong>ค่าจ้าง:</strong> ${data.projectDetails.projectRate} บาท</p>
-      </div>`;
-
-  htmlContent += `
-  <div class="section">
-    <h2 class="section-title">ขอบเขตงาน (Scope of Work)</h2>
-    <ul class="scope-list">
-      ${data.scope.map(item => `<li>• ${item}</li>`).join('')}
-    </ul>
-  </div>`;
-
-  htmlContent += `
-  <div class="section page-break-before">
-    <h2 class="section-title">เงื่อนไขการชำระเงิน</h2>
-    <h3 class="payment-title">แบ่งการจ่ายเป็น 3 งวด</h3>
-    <div class="payment-item">
-      <span>งวดที่ 1: เงินมัดจำ</span>
-      <strong>${data.paymentTerms.deposit}% (${(data.projectDetails.projectRate * data.paymentTerms.deposit / 100).toLocaleString('th-TH')} บาท)</strong>
+</head>
+<body>
+    <div class="doc-container">
+        ${componentHTML}
     </div>
-    <div class="payment-item">
-      <span>งวดที่ 2: เมื่อความคืบหน้า 50%</span>
-      <strong>${data.paymentTerms.milestone}% (${(data.projectDetails.projectRate * data.paymentTerms.milestone / 100).toLocaleString('th-TH')} บาท)</strong>
-    </div>
-    <div class="payment-item">
-      <span>งวดที่ 3: เมื่อส่งมอบงานเสร็จสิ้น</span>
-      <strong>${data.paymentTerms.final}% (${(data.projectDetails.projectRate * data.paymentTerms.final / 100).toLocaleString('th-TH')} บาท)</strong>
-    </div>
-  </div>`;
-
-  htmlContent += `
-      <div class="section no-break">
-        <h2 class="section-title">คู่สัญญา</h2>
-        <div class="party-info">
-          <div class="party">
-            <h3>ผู้ว่าจ้าง</h3>
-            <p><strong>ชื่อ:</strong> ${data.employer.name}</p>
-            <p><strong>โทรศัพท์:</strong> ${data.employer.phone}</p>
-            <p><strong>อีเมล:</strong> ${data.employer.email}</p>
-          </div>
-          <div class="party">
-            <h3>ผู้รับจ้าง</h3>
-            <p><strong>ชื่อ:</strong> ${data.employee.name}</p>
-            <p><strong>โทรศัพท์:</strong> ${data.employee.phone}</p>
-            <p><strong>อีเมล:</strong> ${data.employee.email}</p>
-          </div>
-        </div>
-      </div>`;
-
-  htmlContent += `
-  <div class="section signature-section no-break">
-    <h2 class="section-title">ลงนาม</h2>
-    <div class="signature-grid">
-      <div class="signature-box">
-        <p>ผู้ว่าจ้าง</p>
-        <div class="signature-line"></div>
-        <p>( ${data.employer.name} )</p>
-        <p>วันที่ .........................</p>
-      </div>
-      <div class="signature-box">
-        <p>ผู้รับจ้าง</p>
-        <div class="signature-line"></div>
-        <p>( ${data.employee.name} )</p>
-        <p>วันที่ .........................</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="section witness-section no-break">
-    <h2 class="section-title">พยาน</h2>
-    <div class="witness-grid">
-      <div class="signature-box">
-        <p>พยานคนที่ 1</p>
-        <div class="signature-line"></div>
-        <p>( ${data.witnesses.witness1} )</p>
-        <p>วันที่ .........................</p>
-      </div>
-      <div class="signature-box">
-        <p>พยานคนที่ 2</p>
-        <div class="signature-line"></div>
-        <p>( ${data.witnesses.witness2} )</p>
-        <p>วันที่ .........................</p>
-      </div>
-    </div>
-  </div>
-  </div>`;
-
-  htmlContent += `
-    </body>
-    </html>`;
-  return htmlContent;
+</body>
+</html>`;
+  } catch (error) {
+    console.log(error);
+    return '';
+  }
 }
