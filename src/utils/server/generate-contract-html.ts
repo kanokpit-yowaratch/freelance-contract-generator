@@ -8,9 +8,10 @@ export const generateContractHTML = async (data: ContractData): Promise<string> 
 		const componentHTML = renderToStaticMarkup(React.createElement(ContractTemplate, { data }));
 
 		return `<!DOCTYPE html>
-    <html>
+    <html lang="th">
     <head>
       <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>สัญญาการจ้างงาน</title>
       <style>
         @page {
