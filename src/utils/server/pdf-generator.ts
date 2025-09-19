@@ -54,7 +54,7 @@ export async function generateContractPDF(contractData: ContractData) {
     `,
 			footerTemplate: `
       <div style="font-size: 12px; width: 100%; text-align: center; padding: 10px;">
-        <span>หน้า <span class="pageNumber"></span> จาก <span class="totalPages"></span></span>
+        <span>page <span class="pageNumber"></span> / <span class="totalPages"></span></span>
       </div>
     `,
 		});
