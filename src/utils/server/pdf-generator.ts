@@ -8,8 +8,7 @@ export async function generateContractPDF(contractData: ContractData) {
 	try {
 		const executablePath =
 			process.env.NODE_ENV === 'development'
-				? // '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-					'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+				? 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
 				: await chromium.executablePath();
 
 		browser = await puppeteer.launch({
