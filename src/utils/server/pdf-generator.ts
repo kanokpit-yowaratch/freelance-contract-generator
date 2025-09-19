@@ -49,7 +49,7 @@ export async function generateContractPDF(contractData: ContractData) {
 			displayHeaderFooter: true,
 			headerTemplate: `
       <div style="font-size: 12px; width: 100%; text-align: center; padding: 10px;">
-        <span>สัญญาว่าจ้าง (Contract Agreement)</span>
+        <span>- Contract Agreement -</span>
       </div>
     `,
 			footerTemplate: `
