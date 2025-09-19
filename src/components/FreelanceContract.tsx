@@ -169,7 +169,7 @@ const FreelanceContractGenerator = () => {
 													<label
 														htmlFor="employer.phone"
 														className="block text-sm font-medium text-gray-700 mb-2">
-														อีเมล
+														เบอร์โทร
 													</label>
 													<input
 														{...register('employer.phone')}
@@ -187,6 +187,19 @@ const FreelanceContractGenerator = () => {
 													<input
 														type="email"
 														{...register('employer.email')}
+														onChange={handleInputChange}
+														className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+														placeholder="user@example.com"
+													/>
+												</div>
+												<div>
+													<label
+														htmlFor="employer.taxId"
+														className="block text-sm font-medium text-gray-700 mb-2">
+														Tax Id
+													</label>
+													<input
+														{...register('employer.taxId')}
 														onChange={handleInputChange}
 														className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
 														placeholder="user@example.com"
@@ -215,7 +228,7 @@ const FreelanceContractGenerator = () => {
 													<label
 														htmlFor="employee.phone"
 														className="block text-sm font-medium text-gray-700 mb-2">
-														อีเมล
+														เบอร์โทร
 													</label>
 													<input
 														{...register('employee.phone')}
@@ -233,6 +246,19 @@ const FreelanceContractGenerator = () => {
 													<input
 														{...register('employee.email')}
 														type="email"
+														onChange={handleInputChange}
+														className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+														placeholder="user@example.com"
+													/>
+												</div>
+												<div>
+													<label
+														htmlFor="employee.idCard"
+														className="block text-sm font-medium text-gray-700 mb-2">
+														เลขที่บัตร ปชช
+													</label>
+													<input
+														{...register('employee.idCard')}
 														onChange={handleInputChange}
 														className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
 														placeholder="user@example.com"
@@ -280,7 +306,7 @@ const FreelanceContractGenerator = () => {
 												<label
 													htmlFor="projectDetails.timeline"
 													className="block text-sm font-medium text-gray-700 mb-2">
-													ระยะเวลา
+													ระยะเวลาดำเนินการ (Timeline)
 												</label>
 												<input
 													{...register('projectDetails.timeline')}
@@ -321,7 +347,7 @@ const FreelanceContractGenerator = () => {
 												<label
 													htmlFor="projectDetails.projectRate"
 													className="block text-sm font-medium text-gray-700 mb-2">
-													ค่าจ้าง
+													ค่าตอบแทน
 												</label>
 												<input
 													{...register('projectDetails.projectRate')}
@@ -334,23 +360,11 @@ const FreelanceContractGenerator = () => {
 													<p className="text-red-500">{errors.projectDetails?.projectRate.message}</p>
 												)}
 											</div>
-											{/* <div className="flex flex-col gap-1">
-												<span>ราคา</span>
-												<input
-													type="number"
-													{...register('price', { valueAsNumber: true })}
-													className={`${inputBackoffice()}
-									${errors.price ? ' border-red-300 focus:border-red-500' : ' border-gray-300 focus:border-gray-500'}`}
-													placeholder="Price"
-													onChange={handleChange}
-												/>
-												{errors.price && <p className="text-red-500">{errors.price.message}</p>}
-											</div> */}
 										</div>
 									</div>
 									<div>
 										<div className="flex justify-between items-center mb-4">
-											<h3 className="font-semibold text-gray-800">ขอบเขตงาน (Scope of Work)</h3>
+											<h3 className="font-semibold text-gray-800">ขอบเขตงาน (Project Scope)</h3>
 											<button
 												type="button"
 												onClick={addScope}
@@ -425,7 +439,7 @@ const FreelanceContractGenerator = () => {
 										<label
 											htmlFor="paymentTerms.final"
 											className="block text-sm font-medium text-gray-700 mb-2">
-											งวดที่ 3: เมื่อส่งมอบงานเสร็จสิ้น{' '}
+											งวดที่ 3: เมื่อส่งมอบงานเสร็จสิ้นสมบูรณ์{' '}
 											{`(${((contractData.projectDetails.projectRate * contractData.paymentTerms.final) / 100).toLocaleString('th-TH')} บาท)`}
 										</label>
 										<input
@@ -476,17 +490,11 @@ const FreelanceContractGenerator = () => {
 								</button>
 							</div>
 						</div>
-
 						<div className="p-6">
-							<div className="overflow-y-auto" dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
+							<div
+								className="overflow-y-auto text-sm"
+								dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
 						</div>
-
-						{/* {!showPreview && (
-							<div className="p-6 text-center text-gray-500">
-								<FileText className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-								<p>{`คลิก "แสดง" เพื่อดูตัวอย่าง JSON Contract`}</p>
-							</div>
-						)} */}
 					</div>
 				</form>
 			</div>

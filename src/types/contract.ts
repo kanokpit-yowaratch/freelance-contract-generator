@@ -4,11 +4,13 @@ export interface ContractData {
 		name: string;
 		phone: string;
 		email: string;
+		taxId: string; // or ID Card for personal
 	};
 	employee: {
 		name: string;
 		phone: string;
 		email: string;
+		idCard: string;
 	};
 	projectDetails: {
 		title: string;

@@ -8,7 +8,7 @@ const ContractTemplateColor = ({ data }: ContractTemplateProps) => {
 				fontFamily: "'Sarabun', 'Noto Sans Thai', Arial, sans-serif",
 				lineHeight: '1.6',
 				padding: '20px',
-				fontSize: '14px',
+				fontSize: '16px',
 				maxWidth: '56rem',
 				margin: '0 auto',
 				boxSizing: 'border-box',
@@ -28,9 +28,9 @@ const ContractTemplateColor = ({ data }: ContractTemplateProps) => {
 					}}>
 					<h1
 						style={{
-							fontSize: '24px',
+							fontSize: '20px',
 							fontWeight: 'bold',
-							marginBottom: '10px',
+							marginBottom: '25px',
 						}}>
 						สัญญาการจ้างงาน
 					</h1>
@@ -50,7 +50,7 @@ const ContractTemplateColor = ({ data }: ContractTemplateProps) => {
 						marginBottom: '25px',
 						pageBreakInside: 'avoid',
 					}}>
-					<h2
+					<h3
 						style={{
 							fontSize: '16px',
 							fontWeight: 'bold',
@@ -59,25 +59,80 @@ const ContractTemplateColor = ({ data }: ContractTemplateProps) => {
 							paddingBottom: '5px',
 						}}>
 						รายละเอียดงาน
-					</h2>
-					<p>
-						<strong>ชื่อโครงการ:</strong> {data.projectDetails.title}
-					</p>
-					<p>
-						<strong>รายละเอียด:</strong> {data.projectDetails.description}
-					</p>
-					<p>
-						<strong>ระยะเวลา:</strong> {data.projectDetails.timeline}
-					</p>
-					<p>
-						<strong>วันที่เริ่มงาน:</strong> {data.projectDetails.startDate}
-					</p>
-					<p>
-						<strong>วันที่สิ้นสุด:</strong> {data.projectDetails.endDate}
-					</p>
-					<p>
-						<strong>ค่าจ้าง:</strong> {data.projectDetails.projectRate.toLocaleString('th-TH')} บาท
-					</p>
+					</h3>
+					<ul
+						style={{
+							listStyle: 'none',
+							padding: 0,
+							margin: 0,
+						}}>
+						<li
+							key="project-title"
+							style={{
+								margin: '8px 0',
+								lineHeight: 1.5,
+								wordWrap: 'break-word',
+								overflowWrap: 'break-word',
+								pageBreakInside: 'avoid',
+							}}>
+							<strong>ชื่อโครงการ:</strong> {data.projectDetails.title}
+						</li>
+						<li
+							key="project-desc"
+							style={{
+								margin: '8px 0',
+								lineHeight: 1.5,
+								wordWrap: 'break-word',
+								overflowWrap: 'break-word',
+								pageBreakInside: 'avoid',
+							}}>
+							<strong>รายละเอียด:</strong> {data.projectDetails.description}
+						</li>
+						<li
+							key="project-timeline"
+							style={{
+								margin: '8px 0',
+								lineHeight: 1.5,
+								wordWrap: 'break-word',
+								overflowWrap: 'break-word',
+								pageBreakInside: 'avoid',
+							}}>
+							<strong>ระยะเวลา:</strong> {data.projectDetails.timeline}
+						</li>
+						<li
+							key="project-startDate"
+							style={{
+								margin: '8px 0',
+								lineHeight: 1.5,
+								wordWrap: 'break-word',
+								overflowWrap: 'break-word',
+								pageBreakInside: 'avoid',
+							}}>
+							<strong>วันที่เริ่มงาน:</strong> {data.projectDetails.startDate}
+						</li>
+						<li
+							key="project-endDate"
+							style={{
+								margin: '8px 0',
+								lineHeight: 1.5,
+								wordWrap: 'break-word',
+								overflowWrap: 'break-word',
+								pageBreakInside: 'avoid',
+							}}>
+							<strong>วันที่สิ้นสุด:</strong> {data.projectDetails.endDate}
+						</li>
+						<li
+							key="project-projectRate"
+							style={{
+								margin: '8px 0',
+								lineHeight: 1.5,
+								wordWrap: 'break-word',
+								overflowWrap: 'break-word',
+								pageBreakInside: 'avoid',
+							}}>
+							<strong>ค่าจ้าง:</strong> {data.projectDetails.projectRate.toLocaleString('th-TH')} บาท
+						</li>
+					</ul>
 				</div>
 
 				<div
@@ -85,7 +140,7 @@ const ContractTemplateColor = ({ data }: ContractTemplateProps) => {
 						marginBottom: '25px',
 						pageBreakInside: 'avoid',
 					}}>
-					<h2
+					<h3
 						style={{
 							fontSize: '16px',
 							fontWeight: 'bold',
@@ -93,8 +148,8 @@ const ContractTemplateColor = ({ data }: ContractTemplateProps) => {
 							borderBottom: '2px solid #e5e7eb',
 							paddingBottom: '5px',
 						}}>
-						ขอบเขตงาน (Scope of Work)
-					</h2>
+						ขอบเขตงาน (Project Scope)
+					</h3>
 					<ul
 						style={{
 							listStyle: 'none',
@@ -123,7 +178,7 @@ const ContractTemplateColor = ({ data }: ContractTemplateProps) => {
 						pageBreakInside: 'avoid',
 						pageBreakBefore: 'always',
 					}}>
-					<h2
+					<h3
 						style={{
 							fontSize: '16px',
 							fontWeight: 'bold',
@@ -132,20 +187,19 @@ const ContractTemplateColor = ({ data }: ContractTemplateProps) => {
 							paddingBottom: '5px',
 						}}>
 						เงื่อนไขการชำระเงิน
-					</h2>
-					<h3
+					</h3>
+					<h4
 						style={{
-							fontWeight: 'bold',
 							marginBottom: '10px',
 						}}>
 						แบ่งการจ่ายเป็น 3 งวด
-					</h3>
+					</h4>
 					<div
 						style={{
 							display: 'flex',
 							justifyContent: 'space-between',
 						}}>
-						<span>งวดที่ 1: เงินมัดจำ</span>
+						<span>งวดที่ 1: เงินมัดจำเมื่อเซ็นสัญญา</span>
 						<strong>
 							{data.paymentTerms.deposit}% (
 							{((data.projectDetails.projectRate * data.paymentTerms.deposit) / 100).toLocaleString('th-TH')}{' '}
@@ -203,40 +257,46 @@ const ContractTemplateColor = ({ data }: ContractTemplateProps) => {
 							marginBottom: '20px',
 						}}>
 						<div style={{ flex: 1 }}>
-							<h3
+							<h4
 								style={{
 									marginTop: 0,
 									fontWeight: 'bold',
 								}}>
 								ผู้ว่าจ้าง
-							</h3>
-							<p>
+							</h4>
+							<div>
 								<strong>ชื่อ:</strong> {data.employer.name}
-							</p>
-							<p>
+							</div>
+							<div>
 								<strong>โทรศัพท์:</strong> {data.employer.phone}
-							</p>
-							<p>
+							</div>
+							<div>
 								<strong>อีเมล:</strong> {data.employer.email}
-							</p>
+							</div>
+							<div>
+								<strong>เลขประจำตัวผู้เสียภาษี:</strong> {data.employer.taxId}
+							</div>
 						</div>
 						<div style={{ flex: 1 }}>
-							<h3
+							<h4
 								style={{
 									marginTop: 0,
 									fontWeight: 'bold',
 								}}>
 								ผู้รับจ้าง
-							</h3>
-							<p>
+							</h4>
+							<div>
 								<strong>ชื่อ:</strong> {data.employee.name}
-							</p>
-							<p>
+							</div>
+							<div>
 								<strong>โทรศัพท์:</strong> {data.employee.phone}
-							</p>
-							<p>
+							</div>
+							<div>
 								<strong>อีเมล:</strong> {data.employee.email}
-							</p>
+							</div>
+							<div>
+								<strong>เลขที่บัตร ปชช:</strong> {data.employee.idCard}
+							</div>
 						</div>
 					</div>
 				</div>

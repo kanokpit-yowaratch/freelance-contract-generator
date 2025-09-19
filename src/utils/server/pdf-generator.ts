@@ -48,12 +48,12 @@ export async function generateContractPDF(contractData: ContractData) {
 		const pdf = await page.pdf({
 			displayHeaderFooter: true,
 			headerTemplate: `
-      <div style="font-size: 10px; width: 100%; text-align: center; padding: 10px;">
-        <span>สัญญาการจ้างงาน</span>
+      <div style="font-size: 12px; width: 100%; text-align: center; padding: 10px;">
+        <span>สัญญาว่าจ้าง (Contract Agreement)</span>
       </div>
     `,
 			footerTemplate: `
-      <div style="font-size: 10px; width: 100%; text-align: center; padding: 10px;">
+      <div style="font-size: 12px; width: 100%; text-align: center; padding: 10px;">
         <span>หน้า <span class="pageNumber"></span> จาก <span class="totalPages"></span></span>
       </div>
     `,
