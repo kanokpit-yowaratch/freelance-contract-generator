@@ -14,6 +14,7 @@ export const generateContractHTML = async (data: ContractData): Promise<string> 
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>สัญญาการจ้างงาน</title>
       <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
       <style>
         @page {
           size: A4;
@@ -24,7 +25,7 @@ export const generateContractHTML = async (data: ContractData): Promise<string> 
         }
         body {
           font-family: 'Sarabun', Arial, sans-serif;
-          font-size: 14px;
+          font-size: 16px;
           line-height: 1.6;
           color: #333;
           margin: 0;
