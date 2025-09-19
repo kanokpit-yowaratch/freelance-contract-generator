@@ -133,10 +133,11 @@ const FreelanceContractGenerator = () => {
 										type="button"
 										key={tab.id}
 										onClick={() => setActiveTab(tab.id)}
-										className={`flex-1 p-4 transition-colors ${activeTab === tab.id
+										className={`flex-1 p-4 transition-colors ${
+											activeTab === tab.id
 												? 'text-indigo-600 border-b-2 border-indigo-600'
 												: 'text-gray-600 cursor-pointer hover:text-indigo-600'
-											}`}>
+										}`}>
 										{tab.label}
 									</button>
 								))}
