@@ -4,7 +4,12 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ContractData } from '@/types/contract';
 import { useForm } from 'react-hook-form';
-import { AllValueTypes, ContractSchema, contractSchema, defaultValues } from '@/utils/schemas/contract-schema';
+import {
+	AllValueTypes,
+	ContractSchema,
+	contractSchema,
+	defaultValues,
+} from '@/utils/schemas/contract-schema';
 import { setNestedValue } from '@/utils/contract';
 import { downloadPDF } from '@/utils/client/download';
 import { generateContractHTML } from '@/utils/server/generate-contract-html';
@@ -21,10 +26,10 @@ const FreelanceContractGenerator = () => {
 		clearErrors,
 		setValue,
 		handleSubmit,
-		formState: { errors }
+		formState: { errors },
 	} = useForm<ContractSchema>({
 		resolver: zodResolver(contractSchema),
-		defaultValues
+		defaultValues,
 	});
 
 	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,10 +47,13 @@ const FreelanceContractGenerator = () => {
 		clearErrors(name as keyof ContractSchema);
 		const nameParts = name.split('.');
 		if (nameParts.length > 1) {
-			setValue(nameParts[0] as keyof ContractSchema, {
-				...(contractData[nameParts[0] as keyof ContractData] as object),
-				[nameParts[1]]: value,
-			} as AllValueTypes);
+			setValue(
+				nameParts[0] as keyof ContractSchema,
+				{
+					...(contractData[nameParts[0] as keyof ContractData] as object),
+					[nameParts[1]]: value,
+				} as AllValueTypes,
+			);
 		} else {
 			setValue(name as keyof ContractSchema, value as AllValueTypes);
 		}
@@ -61,12 +69,12 @@ const FreelanceContractGenerator = () => {
 	const handleScopeChange = (index: number, value: string) => {
 		const newItems = [...contractData.scope];
 		newItems[index] = value;
-		setContractData((prev) => ({ ...prev, 'scope': newItems }));
+		setContractData((prev) => ({ ...prev, scope: newItems }));
 	};
 
 	const removeScope = (index: number) => {
 		const newItems = contractData.scope.filter((_, i) => i !== index);
-		setContractData((prev) => ({ ...prev, 'scope': newItems }));
+		setContractData((prev) => ({ ...prev, scope: newItems }));
 	};
 
 	const downloadContract = () => {
@@ -89,12 +97,12 @@ const FreelanceContractGenerator = () => {
 		setIsProcessing(true);
 		await downloadPDF(contractData);
 		setIsProcessing(false);
-	}
+	};
 
 	const loadPreview = async () => {
 		const preview = await generateContractHTML(contractData);
 		setHtmlContent(preview);
-	}
+	};
 
 	const onSubmit = () => {
 		console.log(contractData);
@@ -125,10 +133,11 @@ const FreelanceContractGenerator = () => {
 										type="button"
 										key={tab.id}
 										onClick={() => setActiveTab(tab.id)}
-										className={`flex-1 p-4 transition-colors ${activeTab === tab.id
-											? 'text-indigo-600 border-b-2 border-indigo-600'
-											: 'text-gray-600 cursor-pointer hover:text-indigo-600'
-											}`}>
+										className={`flex-1 p-4 transition-colors ${
+											activeTab === tab.id
+												? 'text-indigo-600 border-b-2 border-indigo-600'
+												: 'text-gray-600 cursor-pointer hover:text-indigo-600'
+										}`}>
 										{tab.label}
 									</button>
 								))}
@@ -143,7 +152,11 @@ const FreelanceContractGenerator = () => {
 											<h3 className="font-semibold text-gray-800 mb-4">ข้อมูลผู้ว่าจ้าง</h3>
 											<div className="space-y-4">
 												<div>
-													<label htmlFor="employer.name" className="block text-sm font-medium text-gray-700 mb-2">ชื่อ</label>
+													<label
+														htmlFor="employer.name"
+														className="block text-sm font-medium text-gray-700 mb-2">
+														ชื่อ
+													</label>
 													<input
 														{...register('employer.name')}
 														type="text"
@@ -153,7 +166,11 @@ const FreelanceContractGenerator = () => {
 													/>
 												</div>
 												<div>
-													<label htmlFor="employer.phone" className="block text-sm font-medium text-gray-700 mb-2">อีเมล</label>
+													<label
+														htmlFor="employer.phone"
+														className="block text-sm font-medium text-gray-700 mb-2">
+														อีเมล
+													</label>
 													<input
 														{...register('employer.phone')}
 														onChange={handleInputChange}
@@ -162,7 +179,11 @@ const FreelanceContractGenerator = () => {
 													/>
 												</div>
 												<div>
-													<label htmlFor="employer.email" className="block text-sm font-medium text-gray-700 mb-2">อีเมล</label>
+													<label
+														htmlFor="employer.email"
+														className="block text-sm font-medium text-gray-700 mb-2">
+														อีเมล
+													</label>
 													<input
 														type="email"
 														{...register('employer.email')}
@@ -178,7 +199,11 @@ const FreelanceContractGenerator = () => {
 											<h3 className="font-semibold text-gray-800 mb-4">ข้อมูลผู้รับจ้าง</h3>
 											<div className="space-y-4">
 												<div>
-													<label htmlFor="employee.name" className="block text-sm font-medium text-gray-700 mb-2">ชื่อ</label>
+													<label
+														htmlFor="employee.name"
+														className="block text-sm font-medium text-gray-700 mb-2">
+														ชื่อ
+													</label>
 													<input
 														{...register('employee.name')}
 														onChange={handleInputChange}
@@ -187,7 +212,11 @@ const FreelanceContractGenerator = () => {
 													/>
 												</div>
 												<div>
-													<label htmlFor="employee.phone" className="block text-sm font-medium text-gray-700 mb-2">อีเมล</label>
+													<label
+														htmlFor="employee.phone"
+														className="block text-sm font-medium text-gray-700 mb-2">
+														อีเมล
+													</label>
 													<input
 														{...register('employee.phone')}
 														onChange={handleInputChange}
@@ -196,7 +225,11 @@ const FreelanceContractGenerator = () => {
 													/>
 												</div>
 												<div>
-													<label htmlFor="employee.email" className="block text-sm font-medium text-gray-700 mb-2">อีเมล</label>
+													<label
+														htmlFor="employee.email"
+														className="block text-sm font-medium text-gray-700 mb-2">
+														อีเมล
+													</label>
 													<input
 														{...register('employee.email')}
 														type="email"
@@ -217,7 +250,9 @@ const FreelanceContractGenerator = () => {
 										<h3 className="font-semibold text-gray-800 mb-4">ข้อมูลโครงการ</h3>
 										<div className="space-y-4">
 											<div>
-												<label htmlFor="projectDetails.title" className="block text-sm font-medium text-gray-700 mb-2">
+												<label
+													htmlFor="projectDetails.title"
+													className="block text-sm font-medium text-gray-700 mb-2">
 													ชื่อโครงการ
 												</label>
 												<input
@@ -228,7 +263,9 @@ const FreelanceContractGenerator = () => {
 												/>
 											</div>
 											<div>
-												<label htmlFor="projectDetails.description" className="block text-sm font-medium text-gray-700 mb-2">
+												<label
+													htmlFor="projectDetails.description"
+													className="block text-sm font-medium text-gray-700 mb-2">
 													รายละเอียดโครงการ
 												</label>
 												<textarea
@@ -240,7 +277,9 @@ const FreelanceContractGenerator = () => {
 												/>
 											</div>
 											<div>
-												<label htmlFor="projectDetails.timeline" className="block text-sm font-medium text-gray-700 mb-2">
+												<label
+													htmlFor="projectDetails.timeline"
+													className="block text-sm font-medium text-gray-700 mb-2">
 													ระยะเวลา
 												</label>
 												<input
@@ -251,7 +290,9 @@ const FreelanceContractGenerator = () => {
 												/>
 											</div>
 											<div>
-												<label htmlFor="projectDetails.startDate" className="block text-sm font-medium text-gray-700 mb-2">
+												<label
+													htmlFor="projectDetails.startDate"
+													className="block text-sm font-medium text-gray-700 mb-2">
 													วันที่เริ่มงาน
 												</label>
 												<input
@@ -263,7 +304,9 @@ const FreelanceContractGenerator = () => {
 												/>
 											</div>
 											<div>
-												<label htmlFor="projectDetails.endDate" className="block text-sm font-medium text-gray-700 mb-2">
+												<label
+													htmlFor="projectDetails.endDate"
+													className="block text-sm font-medium text-gray-700 mb-2">
 													วันที่สิ้นสุดงาน
 												</label>
 												<input
@@ -275,7 +318,9 @@ const FreelanceContractGenerator = () => {
 												/>
 											</div>
 											<div>
-												<label htmlFor="projectDetails.projectRate" className="block text-sm font-medium text-gray-700 mb-2">
+												<label
+													htmlFor="projectDetails.projectRate"
+													className="block text-sm font-medium text-gray-700 mb-2">
 													ค่าจ้าง
 												</label>
 												<input
@@ -285,7 +330,9 @@ const FreelanceContractGenerator = () => {
 													className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
 													placeholder=""
 												/>
-												{errors.projectDetails?.projectRate && <p className="text-red-500">{errors.projectDetails?.projectRate.message}</p>}
+												{errors.projectDetails?.projectRate && (
+													<p className="text-red-500">{errors.projectDetails?.projectRate.message}</p>
+												)}
 											</div>
 											{/* <div className="flex flex-col gap-1">
 												<span>ราคา</span>
@@ -344,8 +391,11 @@ const FreelanceContractGenerator = () => {
 								<div className="space-y-6">
 									<h1 className="font-semibold">แบ่งการจ่ายเป็น 3 งวด</h1>
 									<div>
-										<label htmlFor="paymentTerms.deposit" className="block text-sm font-medium text-gray-700 mb-2">
-											งวดที่ 1: เปอร์เซ็นต์เงินมัดจำ {contractData.paymentTerms.deposit}% {`(${(contractData.projectDetails.projectRate * contractData.paymentTerms.deposit / 100).toLocaleString('th-TH')} บาท)`}
+										<label
+											htmlFor="paymentTerms.deposit"
+											className="block text-sm font-medium text-gray-700 mb-2">
+											งวดที่ 1: เปอร์เซ็นต์เงินมัดจำ {contractData.paymentTerms.deposit}%{' '}
+											{`(${((contractData.projectDetails.projectRate * contractData.paymentTerms.deposit) / 100).toLocaleString('th-TH')} บาท)`}
 										</label>
 										<input
 											{...register('paymentTerms.deposit')}
@@ -356,8 +406,12 @@ const FreelanceContractGenerator = () => {
 										/>
 									</div>
 									<div>
-										<label htmlFor="paymentTerms.milestone" className="block text-sm font-medium text-gray-700 mb-2">
-											งวดที่ 2: จ่ายเพิ่มให้ครบ {contractData.paymentTerms.milestone} เปอร์เซ็นต์ เมื่อความคืบหน้า 50% {`(${(contractData.projectDetails.projectRate * contractData.paymentTerms.milestone / 100).toLocaleString('th-TH')} บาท)`}
+										<label
+											htmlFor="paymentTerms.milestone"
+											className="block text-sm font-medium text-gray-700 mb-2">
+											งวดที่ 2: จ่ายเพิ่มให้ครบ {contractData.paymentTerms.milestone} เปอร์เซ็นต์
+											เมื่อความคืบหน้า 50%{' '}
+											{`(${((contractData.projectDetails.projectRate * contractData.paymentTerms.milestone) / 100).toLocaleString('th-TH')} บาท)`}
 										</label>
 										<input
 											{...register('paymentTerms.milestone')}
@@ -368,8 +422,11 @@ const FreelanceContractGenerator = () => {
 										/>
 									</div>
 									<div>
-										<label htmlFor="paymentTerms.final" className="block text-sm font-medium text-gray-700 mb-2">
-											งวดที่ 3: เมื่อส่งมอบงานเสร็จสิ้น {`(${(contractData.projectDetails.projectRate * contractData.paymentTerms.final / 100).toLocaleString('th-TH')} บาท)`}
+										<label
+											htmlFor="paymentTerms.final"
+											className="block text-sm font-medium text-gray-700 mb-2">
+											งวดที่ 3: เมื่อส่งมอบงานเสร็จสิ้น{' '}
+											{`(${((contractData.projectDetails.projectRate * contractData.paymentTerms.final) / 100).toLocaleString('th-TH')} บาท)`}
 										</label>
 										<input
 											{...register('paymentTerms.final')}
@@ -405,8 +462,7 @@ const FreelanceContractGenerator = () => {
 									type="button"
 									className="flex items-center gap-1 px-3 py-2 bg-teal-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
 									onClick={downloadContract}
-									disabled={isProcessing}
-								>
+									disabled={isProcessing}>
 									<Download className="w-4 h-4 mr-2" />
 									ดาวน์โหลด JSON
 								</button>
@@ -414,8 +470,7 @@ const FreelanceContractGenerator = () => {
 									type="button"
 									className="flex items-center gap-1 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
 									onClick={exportPdf}
-									disabled={isProcessing}
-								>
+									disabled={isProcessing}>
 									<Printer size={18} />
 									ดาวน์โหลด PDF
 								</button>
@@ -423,9 +478,7 @@ const FreelanceContractGenerator = () => {
 						</div>
 
 						<div className="p-6">
-							<div className="overflow-y-auto"
-								dangerouslySetInnerHTML={{ __html: htmlContent }}
-							></div>
+							<div className="overflow-y-auto" dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
 						</div>
 
 						{/* {!showPreview && (

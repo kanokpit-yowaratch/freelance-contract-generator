@@ -2,12 +2,12 @@ import React from 'react';
 import { ContractData } from '@/types/contract';
 
 export const generateContractHTML = async (data: ContractData): Promise<string> => {
-  try {
-    const { renderToStaticMarkup } = await import('react-dom/server');
-    const { default: ContractTemplate } = await import('@/components/ContractTemplateColor');
-    const componentHTML = renderToStaticMarkup(React.createElement(ContractTemplate, { data }));
+	try {
+		const { renderToStaticMarkup } = await import('react-dom/server');
+		const { default: ContractTemplate } = await import('@/components/ContractTemplateColor');
+		const componentHTML = renderToStaticMarkup(React.createElement(ContractTemplate, { data }));
 
-    return `<!DOCTYPE html>
+		return `<!DOCTYPE html>
     <html>
     <head>
       <meta charset="UTF-8">
@@ -145,8 +145,8 @@ export const generateContractHTML = async (data: ContractData): Promise<string> 
     </div>
 </body>
 </html>`;
-  } catch (error) {
-    console.log(error);
-    return '';
-  }
-}
+	} catch (error) {
+		console.log(error);
+		return '';
+	}
+};

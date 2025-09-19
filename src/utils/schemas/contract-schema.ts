@@ -2,110 +2,98 @@ import { z } from 'zod';
 import { ContractData } from '@/types/contract';
 
 const employerSchema = z.object({
-  name: z.string()
-    .min(1, 'ชื่อบริษัทจำเป็น')
-    .max(255, 'ชื่อบริษัทยาวเกินไป'),
-  phone: z
-    .string()
-    .regex(/^[0-9+\-\s()]+$/, "รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง")
-    .min(1, "เบอร์โทรศัพท์จำเป็นต้องระบุ"),
-  email: z
-    .string()
-    .regex(
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-      'รูปแบบอีเมลไม่ถูกต้อง'
-    )
-    .min(1, "อีเมลจำเป็นต้องระบุ")
-    .max(200, 'อีเมลยาวเกินไป'),
+	name: z.string().min(1, 'ชื่อบริษัทจำเป็น').max(255, 'ชื่อบริษัทยาวเกินไป'),
+	phone: z
+		.string()
+		.regex(/^[0-9+\-\s()]+$/, 'รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง')
+		.min(1, 'เบอร์โทรศัพท์จำเป็นต้องระบุ'),
+	email: z
+		.string()
+		.regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'รูปแบบอีเมลไม่ถูกต้อง')
+		.min(1, 'อีเมลจำเป็นต้องระบุ')
+		.max(200, 'อีเมลยาวเกินไป'),
 });
 
 const employeeSchema = z.object({
-  name: z.string()
-    .min(1, 'ชื่อ-นามสกุลจำเป็น')
-    .max(255, 'ชื่อ-นามสกุลยาวเกินไป'),
-  phone: z
-    .string()
-    .regex(/^[0-9+\-\s()]+$/, "รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง")
-    .min(1, "เบอร์โทรศัพท์จำเป็นต้องระบุ"),
-  email: z
-    .string()
-    .regex(
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-      'รูปแบบอีเมลไม่ถูกต้อง'
-    )
-    .min(1, "อีเมลจำเป็นต้องระบุ")
-    .max(200, 'อีเมลยาวเกินไป'),
+	name: z.string().min(1, 'ชื่อ-นามสกุลจำเป็น').max(255, 'ชื่อ-นามสกุลยาวเกินไป'),
+	phone: z
+		.string()
+		.regex(/^[0-9+\-\s()]+$/, 'รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง')
+		.min(1, 'เบอร์โทรศัพท์จำเป็นต้องระบุ'),
+	email: z
+		.string()
+		.regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'รูปแบบอีเมลไม่ถูกต้อง')
+		.min(1, 'อีเมลจำเป็นต้องระบุ')
+		.max(200, 'อีเมลยาวเกินไป'),
 });
 
 const projectDetailsSchema = z.object({
-  title: z.string()
-    .min(1, 'ชื่อโครงการ จำเป็นต้องกรอก')
-    .max(255, 'ชื่อโครงการ ยาวเกินไป'),
-  description: z.string()
-    .min(1, 'รายละเอียดงานจำเป็น')
-    .max(2000, 'รายละเอียดงานยาวเกินไป'),
-  timeline: z.string(),
-  startDate: z.string()
-    .min(1, 'วันที่เริ่มงานจำเป็น'),
-  endDate: z.string()
-    .min(1, 'วันที่สิ้นสุดงานจำเป็น'),
-  projectRate: z.union([z.string(), z.number()])
+	title: z.string().min(1, 'ชื่อโครงการ จำเป็นต้องกรอก').max(255, 'ชื่อโครงการ ยาวเกินไป'),
+	description: z.string().min(1, 'รายละเอียดงานจำเป็น').max(2000, 'รายละเอียดงานยาวเกินไป'),
+	timeline: z.string(),
+	startDate: z.string().min(1, 'วันที่เริ่มงานจำเป็น'),
+	endDate: z.string().min(1, 'วันที่สิ้นสุดงานจำเป็น'),
+	projectRate: z.union([z.string(), z.number()]),
 });
 
-const PaymentTermsSchema = z.object({
-  deposit: z.number()
-    .min(0, 'เปอร์เซ็นต์เงินมัดจำต้องไม่น้อยกว่า 0')
-    .max(100, 'เปอร์เซ็นต์เงินมัดจำต้องไม่เกิน 100'),
-  milestone: z.number()
-    .min(0, 'เปอร์เซ็นต์งานกลางระยะต้องไม่น้อยกว่า 0')
-    .max(100, 'เปอร์เซ็นต์งานกลางระยะต้องไม่เกิน 100'),
-  final: z.number()
-    .min(0, 'เปอร์เซ็นต์งานสุดท้ายต้องไม่น้อยกว่า 0')
-    .max(100, 'เปอร์เซ็นต์งานสุดท้ายต้องไม่เกิน 100')
-}).refine((data) => {
-  const total = data.deposit + data.milestone + (data.final - data.milestone);
-  return total <= 100;
-}, {
-  message: 'รวมเปอร์เซ็นต์การชำระเงินต้องไม่เกิน 100%',
-  path: ['final']
-});
+const PaymentTermsSchema = z
+	.object({
+		deposit: z
+			.number()
+			.min(0, 'เปอร์เซ็นต์เงินมัดจำต้องไม่น้อยกว่า 0')
+			.max(100, 'เปอร์เซ็นต์เงินมัดจำต้องไม่เกิน 100'),
+		milestone: z
+			.number()
+			.min(0, 'เปอร์เซ็นต์งานกลางระยะต้องไม่น้อยกว่า 0')
+			.max(100, 'เปอร์เซ็นต์งานกลางระยะต้องไม่เกิน 100'),
+		final: z
+			.number()
+			.min(0, 'เปอร์เซ็นต์งานสุดท้ายต้องไม่น้อยกว่า 0')
+			.max(100, 'เปอร์เซ็นต์งานสุดท้ายต้องไม่เกิน 100'),
+	})
+	.refine(
+		(data) => {
+			const total = data.deposit + data.milestone + (data.final - data.milestone);
+			return total <= 100;
+		},
+		{
+			message: 'รวมเปอร์เซ็นต์การชำระเงินต้องไม่เกิน 100%',
+			path: ['final'],
+		},
+	);
 
-const WitnessesSchema = z.object({
-  witness1: z.string()
-    .min(1, 'ชื่อพยาน 1 จำเป็น')
-    .max(255, 'ชื่อพยาน 1 ยาวเกินไป'),
-  witness2: z.string()
-    .min(1, 'ชื่อพยาน 2 จำเป็น')
-    .max(255, 'ชื่อพยาน 2 ยาวเกินไป')
-}).refine((data) => data.witness1 !== data.witness2, {
-  message: 'พยานทั้งสองคนต้องเป็นคนละคน',
-  path: ['witness2']
-});
+const WitnessesSchema = z
+	.object({
+		witness1: z.string().min(1, 'ชื่อพยาน 1 จำเป็น').max(255, 'ชื่อพยาน 1 ยาวเกินไป'),
+		witness2: z.string().min(1, 'ชื่อพยาน 2 จำเป็น').max(255, 'ชื่อพยาน 2 ยาวเกินไป'),
+	})
+	.refine((data) => data.witness1 !== data.witness2, {
+		message: 'พยานทั้งสองคนต้องเป็นคนละคน',
+		path: ['witness2'],
+	});
 
 export const contractSchema = z.object({
-  contractTerms: z.string().min(1, 'ต้องกรอกเนื้อหาสัญญา'),
-  employer: employerSchema,
-  employee: employeeSchema,
-  projectDetails: projectDetailsSchema,
-  scope: z.array(
-    z.string()
-      .min(1, 'รายการงานไม่สามารถว่างได้')
-      .max(1000, 'รายการงานยาวเกินไป')
-  ).min(1, 'ต้องมีขอบเขตการทำงานอย่างน้อย 1 รายการ'),
-  paymentTerms: PaymentTermsSchema,
-  witnesses: WitnessesSchema,
-  //   additionalTerms: z.array(
-  //     z.string()
-  //       .min(1, 'เงื่อนไขเพิ่มเติมไม่สามารถว่างได้')
-  //       .max(1000, 'เงื่อนไขเพิ่มเติมยาวเกินไป')
-  //   ).min(1, 'ต้องมีเงื่อนไขเพิ่มเติมอย่างน้อย 1 รายการ')
-  // }).refine((data) => {
-  //   const startDate = new Date(data.jobDetails.startDate);
-  //   const endDate = new Date(data.jobDetails.endDate);
-  //   return startDate < endDate;
-  // }, {
-  //   message: 'วันที่เริ่มงานต้องมาก่อนวันที่สิ้นสุดงาน',
-  //   path: ['jobDetails', 'endDate']
+	contractTerms: z.string().min(1, 'ต้องกรอกเนื้อหาสัญญา'),
+	employer: employerSchema,
+	employee: employeeSchema,
+	projectDetails: projectDetailsSchema,
+	scope: z
+		.array(z.string().min(1, 'รายการงานไม่สามารถว่างได้').max(1000, 'รายการงานยาวเกินไป'))
+		.min(1, 'ต้องมีขอบเขตการทำงานอย่างน้อย 1 รายการ'),
+	paymentTerms: PaymentTermsSchema,
+	witnesses: WitnessesSchema,
+	//   additionalTerms: z.array(
+	//     z.string()
+	//       .min(1, 'เงื่อนไขเพิ่มเติมไม่สามารถว่างได้')
+	//       .max(1000, 'เงื่อนไขเพิ่มเติมยาวเกินไป')
+	//   ).min(1, 'ต้องมีเงื่อนไขเพิ่มเติมอย่างน้อย 1 รายการ')
+	// }).refine((data) => {
+	//   const startDate = new Date(data.jobDetails.startDate);
+	//   const endDate = new Date(data.jobDetails.endDate);
+	//   return startDate < endDate;
+	// }, {
+	//   message: 'วันที่เริ่มงานต้องมาก่อนวันที่สิ้นสุดงาน',
+	//   path: ['jobDetails', 'endDate']
 });
 
 export type Employer = z.infer<typeof employerSchema>;
@@ -126,19 +114,19 @@ export type FeaturesFieldNames = `technicalSpecs.features.${number}`;
 export type AdditionalTermsFieldNames = `additionalTerms.${number}`;
 
 export type ContractFieldNames =
-  | EmployerFieldNames
-  | EmployeeFieldNames
-  | ProjectDetailsFieldNames
-  | PaymentTermsFieldNames
-  | WitnessesFieldNames
-  | ScopeFieldNames
-  | FeaturesFieldNames
-  | AdditionalTermsFieldNames;
+	| EmployerFieldNames
+	| EmployeeFieldNames
+	| ProjectDetailsFieldNames
+	| PaymentTermsFieldNames
+	| WitnessesFieldNames
+	| ScopeFieldNames
+	| FeaturesFieldNames
+	| AdditionalTermsFieldNames;
 
 export type AllValueTypes = ContractData[keyof ContractData];
 
 export const defaultValues: ContractData = {
-  contractTerms: `   สัญญาการจ้างงานฉบับนี้ ทำขึ้นเมื่อวันที่ 19/9/2568 ระหว่างนางสาวสมทรง ใจมั่น ผู้ถือบัตรประชาชนเลขที่ 1234567890123 (ซ่ึงต่อไปในสัญญาน้ีเรียกว่า "ผู้รับจ้าง") กับ บริษัท เอบีซีดีอีเอฟ จำกัด (ซ่ึงต่อไปในสัญญาน้ีเรียกว่า "ผู้ว่าจ้าง")
+	contractTerms: `   สัญญาการจ้างงานฉบับนี้ ทำขึ้นเมื่อวันที่ 19/9/2568 ระหว่างนางสาวสมทรง ใจมั่น ผู้ถือบัตรประชาชนเลขที่ 1234567890123 (ซ่ึงต่อไปในสัญญาน้ีเรียกว่า "ผู้รับจ้าง") กับ บริษัท เอบีซีดีอีเอฟ จำกัด (ซ่ึงต่อไปในสัญญาน้ีเรียกว่า "ผู้ว่าจ้าง")
     โดยที่ผู้รับจ้าง มีความประสงค์ที่จะพัฒนาระบบ E-Commerce ขนาดเล็ก และผู้ว่าจ้างมีความประสงค์จะจ้างเฉพาะบุคคลที่มีคุณสมบัติเหมาะสมในการพัฒนาระบบดังกล่าว จึงตกลงทำสัญญากันโดยมีเงื่อนไข ดังต่อไปน้ี
 1. ลูกจ้างตกลงท างานในฐานะลูกจ้างของบริษทั ฯ นบั ต้งัแต่วนั ที่9/4/2568เป็ นต้นไป ในต าแหน่ง พนักงาน
 พัฒนาโปรแกรม โดยได้รับอัตราค่าจ้าง เป็ น Manday(วันท างานต่อคน) เป็ นจ านวน 2,500 บาท (สองพันห้าร้อยบาท
@@ -179,81 +167,104 @@ export const defaultValues: ContractData = {
 ฉบบั น้ีหรือจากมูลหน้ีอื่นใด
 
     `,
-  employer: {
-    name: "บริษัท สมาร์ทช็อป จำกัด",
-    phone: "02-234-5678",
-    email: "contact@smartshop.co.th"
-  },
-  employee: {
-    name: "นายสมชาย ใจดี",
-    phone: "08-1234-5678",
-    email: "somchai.jaidee@gmail.com",
-  },
-  projectDetails: {
-    title: "ระบบ E-Commerce",
-    description: "พัฒนาระบบการขายออนไลน์ขนาดเล็ก รองรับการจัดการสินค้า การสั่งซื้อ และการชำระเงิน พร้อมระบบจัดการหลังบ้าน",
-    timeline: '3 months',
-    startDate: "1 ตุลาคม 2567",
-    endDate: "31 มีนาคม 2568",
-    projectRate: 40000
-  },
-  scope: [
-    "พัฒนาหน้าเว็บหลัก (Landing Page) พร้อม responsive design รองรับทุกอุปกรณ์",
-    "สร้างระบบจัดการสินค้า (Product Management) ครบถ้วน ได้แก่ เพิ่ม ลบ แก้ไข และจัดหมวดหมู่สินค้า",
-    "พัฒนาระบบตะกร้าสินค้า (Shopping Cart) พร้อมการคำนวณราคารวมและค่าจัดส่ง",
-    "ระบบการสั่งซื้อ (Order Management) ตั้งแต่การเลือกสินค้าจนถึงการยืนยันคำสั่งซื้อ",
-    "ผสานระบบชำระเงินออนไลน์ เช่น PromptPay, Credit Card หรือ Mobile Banking",
-    "สร้างระบบจัดการคำสั่งซื้อสำหรับผู้ดูแลระบบ (Admin Panel)",
-    "พัฒนาระบบสมาชิก (User Registration & Login) พร้อมการจัดการโปรไฟล์",
-    "ระบบติดตามสถานะการสั่งซื้อและการจัดส่ง",
-    "สร้าง Dashboard สำหรับดูสถิติยอดขายและรายงานต่างๆ",
-    "ระบบรีวิวและให้คะแนนสินค้า",
-    "การจัดการสต็อกสินค้าและแจ้งเตือนเมื่อสินค้าใกล้หมด",
-    "ระบบส่วนลดและคูปอง (Discount & Coupon System)",
-    "ระบบแจ้งเตือนทางอีเมลสำหรับการสั่งซื้อและการจัดส่ง",
-    "การเชื่อมต่อกับระบบขนส่ง เช่น Kerry, Thailand Post, หรือ Flash Express",
-    "ระบบรายงานยอดขายรายวัน รายเดือน และรายปี",
-    "การทดสอบระบบ (Testing) และการแก้ไขบัคที่พบ",
-    "การติดตั้งและ deploy ระบบบนเซิร์ฟเวอร์จริง",
-    "การส่งมอบเอกสารคู่มือการใช้งานสำหรับผู้ดูแลระบบ",
-    "การให้คำปรึกษาและการฝึกอบรมการใช้งานระบบเบื้องต้น",
-    "การดูแลระบบและแก้ไขปัญหาเร่งด่วนภายใน 30 วันหลังส่งมอบ"
-  ],
-  paymentTerms: {
-    deposit: 20,
-    milestone: 50,
-    final: 100
-  },
-  witnesses: {
-    witness1: "นางสุดา เจริญสุข",
-    witness2: "นายวิรัช อุตสาห์"
-  },
-  // additionalTerms: [
-  //   "ผู้รับจ้างต้องใช้ Git สำหรับ Version Control และส่ง Source Code ให้ครบถ้วน",
-  //   "การแก้ไขหลังส่งมอบงานเกิน 3 ครั้ง จะมีค่าใช้จ่ายเพิ่มเติม",
-  //   "ระบบต้องผ่านการทดสอบ Security และ Performance ตามมาตรฐาน",
-  //   "การฝึกอบรมทีมงานผู้ดูแลระบบไม่น้อยกว่า 4 ชั่วโมง",
-  //   "Source Code และ Database จะเป็นทรัพย์สินของผู้ว่าจ้าง",
-  //   "หากโครงการล่าช้าเกิน 30 วัน ผู้รับจ้างต้องลดค่าจ้าง 5%"
-  // ]
+	employer: {
+		name: 'บริษัท สมาร์ทช็อป จำกัด',
+		phone: '02-234-5678',
+		email: 'contact@smartshop.co.th',
+	},
+	employee: {
+		name: 'นายสมชาย ใจดี',
+		phone: '08-1234-5678',
+		email: 'somchai.jaidee@gmail.com',
+	},
+	projectDetails: {
+		title: 'ระบบ E-Commerce',
+		description:
+			'พัฒนาระบบการขายออนไลน์ขนาดเล็ก รองรับการจัดการสินค้า การสั่งซื้อ และการชำระเงิน พร้อมระบบจัดการหลังบ้าน',
+		timeline: '3 months',
+		startDate: '1 ตุลาคม 2567',
+		endDate: '31 มีนาคม 2568',
+		projectRate: 40000,
+	},
+	scope: [
+		'พัฒนาหน้าเว็บหลัก (Landing Page) พร้อม responsive design รองรับทุกอุปกรณ์',
+		'สร้างระบบจัดการสินค้า (Product Management) ครบถ้วน ได้แก่ เพิ่ม ลบ แก้ไข และจัดหมวดหมู่สินค้า',
+		'พัฒนาระบบตะกร้าสินค้า (Shopping Cart) พร้อมการคำนวณราคารวมและค่าจัดส่ง',
+		'ระบบการสั่งซื้อ (Order Management) ตั้งแต่การเลือกสินค้าจนถึงการยืนยันคำสั่งซื้อ',
+		'ผสานระบบชำระเงินออนไลน์ เช่น PromptPay, Credit Card หรือ Mobile Banking',
+		'สร้างระบบจัดการคำสั่งซื้อสำหรับผู้ดูแลระบบ (Admin Panel)',
+		'พัฒนาระบบสมาชิก (User Registration & Login) พร้อมการจัดการโปรไฟล์',
+		'ระบบติดตามสถานะการสั่งซื้อและการจัดส่ง',
+		'สร้าง Dashboard สำหรับดูสถิติยอดขายและรายงานต่างๆ',
+		'ระบบรีวิวและให้คะแนนสินค้า',
+		'การจัดการสต็อกสินค้าและแจ้งเตือนเมื่อสินค้าใกล้หมด',
+		'ระบบส่วนลดและคูปอง (Discount & Coupon System)',
+		'ระบบแจ้งเตือนทางอีเมลสำหรับการสั่งซื้อและการจัดส่ง',
+		'การเชื่อมต่อกับระบบขนส่ง เช่น Kerry, Thailand Post, หรือ Flash Express',
+		'ระบบรายงานยอดขายรายวัน รายเดือน และรายปี',
+		'การทดสอบระบบ (Testing) และการแก้ไขบัคที่พบ',
+		'การติดตั้งและ deploy ระบบบนเซิร์ฟเวอร์จริง',
+		'การส่งมอบเอกสารคู่มือการใช้งานสำหรับผู้ดูแลระบบ',
+		'การให้คำปรึกษาและการฝึกอบรมการใช้งานระบบเบื้องต้น',
+		'การดูแลระบบและแก้ไขปัญหาเร่งด่วนภายใน 30 วันหลังส่งมอบ',
+	],
+	paymentTerms: {
+		deposit: 20,
+		milestone: 50,
+		final: 100,
+	},
+	witnesses: {
+		witness1: 'นางสุดา เจริญสุข',
+		witness2: 'นายวิรัช อุตสาห์',
+	},
+	// additionalTerms: [
+	//   "ผู้รับจ้างต้องใช้ Git สำหรับ Version Control และส่ง Source Code ให้ครบถ้วน",
+	//   "การแก้ไขหลังส่งมอบงานเกิน 3 ครั้ง จะมีค่าใช้จ่ายเพิ่มเติม",
+	//   "ระบบต้องผ่านการทดสอบ Security และ Performance ตามมาตรฐาน",
+	//   "การฝึกอบรมทีมงานผู้ดูแลระบบไม่น้อยกว่า 4 ชั่วโมง",
+	//   "Source Code และ Database จะเป็นทรัพย์สินของผู้ว่าจ้าง",
+	//   "หากโครงการล่าช้าเกิน 30 วัน ผู้รับจ้างต้องลดค่าจ้าง 5%"
+	// ]
 };
 
 export const fieldValidationRules = {
-  employer: {
-    name: { required: 'ชื่อบริษัทจำเป็น', maxLength: { value: 255, message: 'ชื่อบริษัทยาวเกินไป' } },
-    email: { required: 'อีเมลจำเป็น', pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'รูปแบบอีเมลไม่ถูกต้อง' } },
-    phone: { required: 'หมายเลขโทรศัพท์จำเป็น', pattern: { value: /^[0-9\-\s\+\(\)]+$/, message: 'รูปแบบหมายเลขโทรศัพท์ไม่ถูกต้อง' } },
-  },
-  employee: {
-    name: { required: 'ชื่อ-นามสกุลจำเป็น', maxLength: { value: 255, message: 'ชื่อ-นามสกุลยาวเกินไป' } },
-    email: { required: 'อีเมลจำเป็น', pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'รูปแบบอีเมลไม่ถูกต้อง' } },
-    phone: { required: 'หมายเลขโทรศัพท์จำเป็น', pattern: { value: /^[0-9\-\s\+\(\)]+$/, message: 'รูปแบบหมายเลขโทรศัพท์ไม่ถูกต้อง' } },
-  },
-  jobDetails: {
-    title: { required: 'ชื่อโครงการ จำเป็นต้องกรอก', maxLength: { value: 255, message: 'ชื่อโครงการ ยาวเกินไป' } },
-    description: { required: 'รายละเอียดงานจำเป็น', maxLength: { value: 2000, message: 'รายละเอียดงานยาวเกินไป' } },
-    startDate: { required: 'วันที่เริ่มงาน จำเป็นต้องใส่' },
-    endDate: { required: 'วันที่สิ้นสุดงาน จำเป็นต้องใส่' },
-    projectRate: { required: 'ค่าจ้าง จำเป็นต้องกรอก', min: { value: 1, message: 'ค่าจ้างต้องมากกว่า 0' }, max: { value: 10000000, message: 'เงินเดือนสูงเกินไป' } }
-  }
+	employer: {
+		name: { required: 'ชื่อบริษัทจำเป็น', maxLength: { value: 255, message: 'ชื่อบริษัทยาวเกินไป' } },
+		email: {
+			required: 'อีเมลจำเป็น',
+			pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'รูปแบบอีเมลไม่ถูกต้อง' },
+		},
+		phone: {
+			required: 'หมายเลขโทรศัพท์จำเป็น',
+			pattern: { value: /^[0-9\-\s\+\(\)]+$/, message: 'รูปแบบหมายเลขโทรศัพท์ไม่ถูกต้อง' },
+		},
+	},
+	employee: {
+		name: { required: 'ชื่อ-นามสกุลจำเป็น', maxLength: { value: 255, message: 'ชื่อ-นามสกุลยาวเกินไป' } },
+		email: {
+			required: 'อีเมลจำเป็น',
+			pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'รูปแบบอีเมลไม่ถูกต้อง' },
+		},
+		phone: {
+			required: 'หมายเลขโทรศัพท์จำเป็น',
+			pattern: { value: /^[0-9\-\s\+\(\)]+$/, message: 'รูปแบบหมายเลขโทรศัพท์ไม่ถูกต้อง' },
+		},
+	},
+	jobDetails: {
+		title: {
+			required: 'ชื่อโครงการ จำเป็นต้องกรอก',
+			maxLength: { value: 255, message: 'ชื่อโครงการ ยาวเกินไป' },
+		},
+		description: {
+			required: 'รายละเอียดงานจำเป็น',
+			maxLength: { value: 2000, message: 'รายละเอียดงานยาวเกินไป' },
+		},
+		startDate: { required: 'วันที่เริ่มงาน จำเป็นต้องใส่' },
+		endDate: { required: 'วันที่สิ้นสุดงาน จำเป็นต้องใส่' },
+		projectRate: {
+			required: 'ค่าจ้าง จำเป็นต้องกรอก',
+			min: { value: 1, message: 'ค่าจ้างต้องมากกว่า 0' },
+			max: { value: 10000000, message: 'เงินเดือนสูงเกินไป' },
+		},
+	},
 };
